@@ -35,11 +35,11 @@ export function Header() {
         <header className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
             <div className="flex justify-between items-center px-6 py-3 max-w-7xl mx-auto">
                 <div onClick={backToHome} className="flex items-center gap-3 cursor-pointer group">
-                    <div className="w-10 h-10 rounded-lg bg-[#0073E6] flex items-center justify-center shadow-md group-hover:bg-[#002855] transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
+                    <img 
+                        src="/lighthouse.png" 
+                        alt="SiteBeacon Logo" 
+                        className="w-10 h-10 object-contain group-hover:scale-110 transition-transform"
+                    />
                     <h1 className="text-2xl font-bold text-[#002855] select-none">
                         SiteBeacon
                     </h1>

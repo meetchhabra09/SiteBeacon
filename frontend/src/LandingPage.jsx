@@ -64,7 +64,7 @@ export function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4">
+      <section id="features" className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-[#002855] mb-4">
@@ -146,7 +146,7 @@ export function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="bg-[#F4F6F9] py-20 px-4">
+      <section id="how-it-works" className="bg-[#F4F6F9] py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-[#002855] mb-4">
@@ -247,9 +247,9 @@ export function LandingPage() {
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-blue-200">
-                <li><a href="#" className="hover:text-white transition">Features</a></li>
+                <li><a href="#features" className="hover:text-white transition">Features</a></li>
                 <li><a href="#" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition">Security</a></li>
+                <li><a href="#how-it-works" className="hover:text-white transition">Working</a></li>
               </ul>
             </div>
 
