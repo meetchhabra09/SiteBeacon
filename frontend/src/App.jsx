@@ -6,6 +6,8 @@ import { SignUp } from './SignUp'
 import { Header } from './Header'
 import { AddBeacon } from './AddBeacon'
 import { VerifyOtp } from './VerifyOtp'
+import { LandingPage } from './LandingPage'
+import { LandingHeader } from './LandingHeader'
 
 function App() {
 
@@ -13,8 +15,10 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LandingPageLayout />}>
+            <Route index element={<LandingPage />} />
+          </Route>
           <Route path="/" element={<Layout />}>
-            <Route index element={<DashBoard />} />
             <Route path="dashboard" element={<DashBoard />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
@@ -31,6 +35,15 @@ function Layout() {
   return (
     <div>
       <Header />
+      <Outlet />
+    </div>
+  )
+}
+
+function LandingPageLayout() {
+  return (
+    <div>
+      <LandingHeader />
       <Outlet />
     </div>
   )

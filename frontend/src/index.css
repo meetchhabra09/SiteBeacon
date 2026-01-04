@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+/* ServiceNow Theme Colors */
+:root {
+  --sn-navy: #002855;
+  --sn-blue: #0073E6;
+  --sn-teal: #00A1E0;
+  --sn-green: #84BD00;
+  --sn-gray: #5A6C7D;
+  --sn-light-gray: #F4F6F9;
+}
+
+/* Custom scrollbar - Hidden */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Pulse animation for status indicators */
+@keyframes pulse-online {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulse-online {
+  animation: pulse-online 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

@@ -1,43 +1,67 @@
-    import { useNavigate, useLocation } from "react-router-dom";
-    import { useState, useEffect } from "react";
-    import { LoginPop } from "./Components/LoginPop";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { LoginPop } from "./Components/LoginPop";
 
-    export function Header() {
-        const navigate = useNavigate();
-        const location = useLocation();
-        const backToHome = () => {
-            navigate("/")
+export function Header() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const backToHome = () => {
+        navigate("/")
+    }
+    const [userInitial, setUserInitial] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
+    useEffect(() => {
+        const user = localStorage.getItem("name");
+        const token = localStorage.getItem("token");
+        if (user) {
+            setUserInitial(user.charAt(0).toUpperCase());
+            setIsLoggedIn(!!token);
         }
-        const [userInitial, setUserInitial] = useState("@");
-        useEffect(() => {
-            const user = localStorage.getItem("name");
-            if (user) {
-                setUserInitial(user.charAt(0).toUpperCase());
-            }
-        }, [location]);
+    }, [location]);
 
-        const [showPop, setShowPop] = useState(false);
+    const [showPop, setShowPop] = useState(false);
 
+    const handleProfileClick = () => {
+        if (!isLoggedIn) {
+            alert("Please login to view your profile");
+            navigate("/login");
+            return;
+        }
+        setShowPop((prev) => !prev);
+    }
 
-        return (
-            <div className="flex justify-between items-center px-5 shadow-md p-2">
-                <div onClick={backToHome} className="flex items-center">
-                    <img src="/lighthouse.png" alt="logo" className="w-8 h-8 cursor-pointer select-none" />
-                    <h1 className="text-2xl m-2 font-bold cursor-pointer select-none">SiteBeacon</h1>
+    return (
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+            <div className="flex justify-between items-center px-6 py-3 max-w-7xl mx-auto">
+                <div onClick={backToHome} className="flex items-center gap-3 cursor-pointer group">
+                    <div className="w-10 h-10 rounded-lg bg-[#0073E6] flex items-center justify-center shadow-md group-hover:bg-[#002855] transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h1 className="text-2xl font-bold text-[#002855] select-none">
+                        SiteBeacon
+                    </h1>
                 </div>
                 <div className="relative">
-                    <h1
-                        className="text-xl text-gray-600 p-0.5 font-semibold rounded-full border-1 border-gray-300 shadow-md h-9 w-9 cursor-pointer text-center select-none"
-                        onClick={() => setShowPop((prev) => !prev)}
+                    <button
+                        className="h-10 w-10 rounded-full bg-[#0073E6] text-white font-bold text-lg flex items-center justify-center cursor-pointer hover:bg-[#002855] transition-colors shadow-md select-none"
+                        onClick={handleProfileClick}
                     >
-                        {userInitial}
-                    </h1>
-                    {showPop && (
-                        <div className="absolute right-0 mt-5 z-50">
-                            <LoginPop />
+                        {userInitial ? userInitial : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        )}
+                    </button>
+                    {showPop && isLoggedIn && (
+                        <div className="absolute right-0 mt-3 z-50">
+                            <LoginPop onClose={() => setShowPop(false)} />
                         </div>
                     )}
                 </div>
             </div>
-        );
-    }
+        </header>
+    );
+}
