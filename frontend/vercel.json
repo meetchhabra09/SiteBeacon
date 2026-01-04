@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://sitebeacon-itg2.onrender.com/$1"
+    }
+  ]
+}
