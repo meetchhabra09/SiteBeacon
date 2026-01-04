@@ -50,6 +50,8 @@ export const loginUser = async (req, res) => {
     }
 
     const otp = generateOTP();
+    console.log("DEV OTP:", otp);
+
     const otpHash = await bcrypt.hash(otp, 10);
     const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
