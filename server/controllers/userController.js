@@ -30,13 +30,14 @@ export const registerUser = async (req, res) => {
 };
 
 // Login user otp
+// Login user otp
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     console.log("Login attempt for:", email);
-    const user = await User.findOne({ email });
 
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -50,61 +51,27 @@ export const loginUser = async (req, res) => {
 
     console.log("password match");
 
-    //otp
+    // Generate OTP
     const otp = generateOTP();
     const otpHash = await bcrypt.hash(otp, 10);
     const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
     user.otpHash = otpHash;
     user.otpExpiresAt = otpExpiresAt;
-
     await user.save();
-    sendOtpEmail(email, otp).catch(err =>
-  console.error("OTP email error:", err)
-  );
 
+    // ✅ SEND RESPONSE FIRST
     res.status(200).json({
       message: "OTP sent to email",
     });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to login user" });
-  }
-};
 
-// Verify OTP
-export const verifyOtp = async (req, res) => {
-  const { email, otp } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    if (user.otpExpiresAt < new Date()) {
-      return res.status(400).json({ error: "OTP has expired" });
-    }
-
-    const isOtpMatch = await bcrypt.compare(otp, user.otpHash);
-    if (!isOtpMatch) {
-      return res.status(401).json({ error: "Invalid OTP" });
-    }
-
-    user.otpHash = null;
-    user.otpExpiresAt = null;
-    await user.save();
-
-    const token = generateToken(user._id);
-
-    res.status(200).json({
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-      token,
+    // ✅ SEND EMAIL ASYNC (DO NOT AWAIT)
+    sendOtpMail(email, otp).catch(err => {
+      console.error("OTP email failed:", err.message);
     });
+
   } catch (error) {
-    res.status(500).json({ error: "Failed to verify OTP" });
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Failed to login user" });
   }
 };
