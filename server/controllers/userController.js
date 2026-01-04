@@ -58,7 +58,9 @@ export const loginUser = async (req, res) => {
     user.otpExpiresAt = otpExpiresAt;
 
     await user.save();
-    await sendOtpMail(user.email, otp);
+    sendOtpEmail(email, otp).catch(err =>
+  console.error("OTP email error:", err)
+  );
 
     res.status(200).json({
       message: "OTP sent to email",
