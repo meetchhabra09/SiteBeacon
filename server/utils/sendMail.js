@@ -1,14 +1,26 @@
 import nodemailer from "nodemailer";
 
-// Brevo SMTP transporter (uses generated SMTP key as password)
+// Brevo SMTP transporter
 const transporter = nodemailer.createTransport({
   host: process.env.BREVO_SMTP_HOST || "smtp-relay.brevo.com",
   port: Number(process.env.BREVO_SMTP_PORT || 587),
   secure: false,
   auth: {
-    user: process.env.BREVO_SMTP_USER || "apikey",
+    user: process.env.BREVO_SMTP_USER || process.env.BREVO_SENDER_MAIL,
     pass: process.env.BREVO_SMTP_PASS,
   },
+  tls: {
+    ciphers: "SSLv3",
+  },
+});
+
+// Verify transporter configuration
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("SMTP Configuration Error:", error);
+  } else {
+    console.log("✓ SMTP Server is ready to send emails");
+  }
 });
 
 export async function sendBeaconFailMail(to, beacon) {
@@ -29,10 +41,13 @@ export async function sendBeaconFailMail(to, beacon) {
     `,
   };
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Email sent to ${to}`);
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✓ Email sent to ${to}`, info.messageId);
+    return info;
   } catch (error) {
-    console.error(`Error sending email to ${to}:`, error);
+    console.error(`✗ Error sending email to ${to}:`, error.message);
+    console.error("Full error:", error);
+    throw error;
   }
 }
 
@@ -45,10 +60,12 @@ export async function sendOtpMail(to, otp) {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`OTP email sent to ${to}`);
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✓ OTP email sent to ${to}`, info.messageId);
+    return info;
   } catch (error) {
-    console.error("Failed to send OTP email:", error);
+    console.error("✗ Failed to send OTP email:", error.message);
+    console.error("Full error:", error);
     throw new Error("OTP email failed");
   }
 }
