@@ -1,18 +1,19 @@
 import nodemailer from "nodemailer";
 
+// Brevo SMTP transporter (uses generated SMTP key as password)
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT || 587,
+  host: process.env.BREVO_SMTP_HOST || "smtp-relay.brevo.com",
+  port: Number(process.env.BREVO_SMTP_PORT || 587),
   secure: false,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: process.env.BREVO_SMTP_USER || "apikey",
+    pass: process.env.BREVO_SMTP_PASS,
   },
 });
 
 export async function sendBeaconFailMail(to, beacon) {
   const mailOptions = {
-    from: `SiteBeacon <${process.env.SMTP_SENDER_MAIL}>`,
+    from: process.env.BREVO_SENDER_MAIL,
     to,
     subject: `Beacon Alert: ${beacon.title} is DOWN`,
     text: `Hello,
@@ -37,7 +38,7 @@ export async function sendBeaconFailMail(to, beacon) {
 
 export async function sendOtpMail(to, otp) {
   const mailOptions = {
-    from: `"SiteBeacon" <${process.env.SMTP_SENDER_MAIL}>`,
+    from: process.env.BREVO_SENDER_MAIL,
     to,
     subject: "Your SiteBeacon Login OTP",
     text: `Your OTP for login is ${otp}. It is valid for 5 minutes.`,
