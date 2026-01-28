@@ -3,8 +3,8 @@ import nodemailer from "nodemailer";
 // Brevo SMTP transporter (using port 465 for better cloud platform compatibility)
 const transporter = nodemailer.createTransport({
   host: process.env.BREVO_SMTP_HOST || "smtp-relay.brevo.com",
-  port: Number(process.env.BREVO_SMTP_PORT || 465),
-  secure: true, // use SSL/TLS
+  port: Number(process.env.BREVO_SMTP_PORT || 587),
+  secure: false, // use SSL/TLS
   auth: {
     user: process.env.BREVO_SMTP_USER || process.env.BREVO_SENDER_MAIL,
     pass: process.env.BREVO_SMTP_PASS,
