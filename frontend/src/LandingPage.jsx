@@ -31,7 +31,7 @@ export function LandingPage() {
                 </button>
               </div>
               <p className="text-gray-500 mt-6">
-                ✓ No credit card required • ✓ 30-minute setup • ✓ Real-time monitoring
+                ✓ No credit card required • ✓ 3-minute setup • ✓ Real-time monitoring
               </p>
             </div>
             <div className="hidden lg:flex items-center justify-center">
