@@ -73,6 +73,31 @@ app.post("/jobs", authUser, async (req, res) => {
   }
 });
 
+app.put("/jobs/:id", authUser, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const beaconId = req.params.id;
+    const { title, url } = req.body;
+
+    if (!title || !url) {
+      return res.status(400).json({ error: "Title and URL are required" });
+    }
+
+    const beacon = await Beacon.findOne({ _id: beaconId, user: userId });
+
+    if (!beacon) return res.status(404).json({ error: "Beacon not found" });
+
+    beacon.title = title.trim();
+    beacon.url = url.trim();
+    await beacon.save();
+
+    res.json({ message: "Beacon updated successfully", beacon });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update beacon" });
+  }
+});
+
 app.delete("/jobs/:id", authUser, async (req, res) => {
   try {
     const userId = req.user._id;

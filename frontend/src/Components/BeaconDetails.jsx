@@ -1,6 +1,9 @@
 import api from "../api";
+import { useNavigate } from "react-router-dom";
 
 export function BeaconDetails({ beacon, updateDelete }) {
+    const navigate = useNavigate();
+
     const handleDelete = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -12,6 +15,10 @@ export function BeaconDetails({ beacon, updateDelete }) {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const handleEdit = () => {
+        navigate(`/edit-beacon/${beacon._id}`);
     }
 
     let duration = beacon.lastDuration ?? 0;
@@ -81,15 +88,26 @@ export function BeaconDetails({ beacon, updateDelete }) {
                 </div>
             </div>
 
-            <button
-                onClick={handleDelete}
-                className="w-full mt-auto py-2.5 rounded-lg font-semibold text-gray-700 bg-white border-2 border-gray-200 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 flex items-center justify-center gap-2"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-                Delete Beacon
-            </button>
+            <div className="flex gap-3">
+                <button
+                    onClick={handleEdit}
+                    className="flex-1 py-2.5 rounded-lg font-semibold text-white bg-[#0073E6] border-2 border-[#0073E6] hover:bg-[#0066CC] hover:border-[#0066CC] transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Edit Beacon
+                </button>
+                <button
+                    onClick={handleDelete}
+                    className="flex-1 py-2.5 rounded-lg font-semibold text-gray-700 bg-white border-2 border-gray-200 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Delete
+                </button>
+            </div>
         </div>
     );
 }
