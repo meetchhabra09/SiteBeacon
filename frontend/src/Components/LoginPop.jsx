@@ -11,6 +11,11 @@ export function LoginPop({ onClose }) {
         window.location.reload();
     }
 
+    const handleProfile = () => {
+        navigate("/profile");
+        onClose();
+    };
+
     return (
         <div className="bg-white rounded-lg shadow-xl border border-gray-200 w-72 p-5">
             <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
@@ -24,7 +29,10 @@ export function LoginPop({ onClose }) {
             </div>
             
             <div className="space-y-2">
-                <div className="flex items-center gap-2 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                <div
+                    onClick={handleProfile}
+                    className="flex items-center gap-2 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
