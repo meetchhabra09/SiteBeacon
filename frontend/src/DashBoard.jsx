@@ -11,6 +11,7 @@ export function DashBoard() {
     const [beacons, setBeacons] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
 
     const navigate = useNavigate();
     const goToAddBeacon = () => {
@@ -109,10 +110,16 @@ export function DashBoard() {
 
     const filteredBeacons = beacons.filter((beacon) => {
         const query = searchQuery.trim().toLowerCase();
-        if (!query) return true;
-        const title = (beacon.title || "").toLowerCase();
-        const url = (beacon.url || "").toLowerCase();
-        return title.includes(query) || url.includes(query);
+        const matchesQuery = !query
+            || (beacon.title || "").toLowerCase().includes(query)
+            || (beacon.url || "").toLowerCase().includes(query);
+
+        const isOnline = beacon.lastStatus === "UP";
+        const matchesStatus = statusFilter === "all"
+            || (statusFilter === "online" && isOnline)
+            || (statusFilter === "offline" && !isOnline);
+
+        return matchesQuery && matchesStatus;
     });
 
     useEffect(() => {
@@ -201,6 +208,20 @@ export function DashBoard() {
                                 />
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                                </svg>
+                            </div>
+                            <div className="relative">
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    className="w-full sm:w-44 border border-gray-300 focus:border-[#0073E6] focus:ring-2 focus:ring-[#00A1E0]/20 rounded-lg pl-3 pr-8 py-2.5 outline-none transition-all appearance-none bg-white"
+                                >
+                                    <option value="all">All Statuses</option>
+                                    <option value="online">Online</option>
+                                    <option value="offline">Offline</option>
+                                </select>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
                             </div>
                             <button 
