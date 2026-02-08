@@ -98,7 +98,7 @@ export function Profile() {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="+1 555 123 4567"
+                placeholder="+91 xxxxx xxxxx"
                 className="w-full border border-gray-300 focus:border-[#0073E6] focus:ring-2 focus:ring-[#00A1E0]/20 rounded-lg px-4 py-3 outline-none transition-all"
               />
             </div>
