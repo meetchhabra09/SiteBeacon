@@ -22,7 +22,7 @@ export function EditBeacon() {
             try {
                 const token = localStorage.getItem("token");
                 const response = await api.get(`/jobs/${id}`, {
-                    headers: { Authorization: `${token}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 
                 setName(response.data.title || "");
@@ -58,7 +58,7 @@ export function EditBeacon() {
                 `/jobs/${id}`,
                 payload,
                 {
-                    headers: { Authorization: `${token}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             );
 

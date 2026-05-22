@@ -12,8 +12,8 @@ const beaconSchema = new mongoose.Schema({
   lastExecution: { type: Date, default: null },
   nextExecution: { type: Date, default: null },
 
-  alertSent: { type: Boolean, default: false }
-
+  alertSent: { type: Boolean, default: false },
+  checkInterval: { type: Number, enum: [5, 10, 20], default: 10 }
 
 }, { timestamps: true });
 

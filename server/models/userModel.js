@@ -13,6 +13,22 @@ const userSchema = new mongoose.Schema(
     ],
     otpHash: { type: String, default: null },
     otpExpiresAt: { type: Date, default: null },
+    analyticsPreferences: {
+      emailReports: { type: Boolean, default: true },
+      reportFrequency: { 
+        type: String, 
+        enum: ["daily", "weekly", "monthly"], 
+        default: "weekly" 
+      },
+      reportDay: { 
+        type: Number, 
+        min: 0, 
+        max: 6, 
+        default: 0 
+      },
+      reportTime: { type: String, default: "09:00" },
+      lastReportSent: { type: Date, default: null }
+    }
   },
   { timestamps: true }
 );

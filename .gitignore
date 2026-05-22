@@ -9,3 +9,4 @@ yarn-error.log*
 pnpm-debug.log*
 coverage/
 .vscode/
+00_START_HERE.md 

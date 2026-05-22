@@ -33,7 +33,7 @@ export function AddBeacon() {
                 "/jobs",
                 payload,
                 {
-                    headers: { Authorization: `${token}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             );
 

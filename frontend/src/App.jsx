@@ -10,6 +10,7 @@ import { VerifyOtp } from './VerifyOtp'
 import { LandingPage } from './LandingPage'
 import { LandingHeader } from './LandingHeader'
 import { Profile } from './Profile'
+import { History } from './History'
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="edit-beacon/:id" element={<EditBeacon />} />
             <Route path="verify-otp" element={<VerifyOtp />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="history" element={<History />} />
           </Route>
         </Routes>
       </BrowserRouter>

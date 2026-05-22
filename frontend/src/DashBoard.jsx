@@ -35,7 +35,7 @@ export function DashBoard() {
             return;
         }
 
-        const socket = io("http://localhost:3000", {
+        const socket = io("http://localhost:3001", {
             query: { userId: userId },
             reconnection: true,
             reconnectionDelay: 1000,
@@ -77,7 +77,7 @@ export function DashBoard() {
             try {
                 const token = localStorage.getItem("token");
                 const response = await api.get("/jobs", {
-                    headers: { Authorization: `${token}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setBeacons(response.data.beacons);
             } catch (error) {
@@ -108,7 +108,7 @@ export function DashBoard() {
     const [avgTime, setAvgTime] = useState(0);
     const [maxTime, setMaxTime] = useState(0);
 
-    const filteredBeacons = beacons.filter((beacon) => {
+    const filteredBeacons = (beacons || []).filter((beacon) => {
         const query = searchQuery.trim().toLowerCase();
         const matchesQuery = !query
             || (beacon.title || "").toLowerCase().includes(query)
@@ -143,7 +143,7 @@ export function DashBoard() {
         try {
             const token = localStorage.getItem("token");
             const response = await api.get("/jobsRefresh", {
-                headers: { Authorization: `${token}` },
+                headers: { Authorization: `Bearer ${token}` },
             });
             
             setBeacons(response.data.beacons);
